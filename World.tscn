@@ -1,44 +1,83 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Player.gd" type="Script" id=1]
-
-[sub_resource type="CubeMesh" id=2]
-size = Vector3( 0.2, 0.2, 0.2 )
-
-[sub_resource type="BoxShape" id=3]
-extents = Vector3( 0.1, 0.1, 0.1 )
+[ext_resource path="res://generic_character_1.gd" type="Script" id=1]
+[ext_resource path="res://BaseCharacter/States/idle.gd" type="Script" id=2]
+[ext_resource path="res://BaseCharacter/States/jump.gd" type="Script" id=3]
+[ext_resource path="res://BaseCharacter/States/move.gd" type="Script" id=4]
+[ext_resource path="res://BaseCharacter/States/fall.gd" type="Script" id=5]
 
 [sub_resource type="CubeMesh" id=1]
-size = Vector3( 5, 0.5, 2 )
+size = Vector3( 0.2, 0.2, 0.2 )
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.1, 0.1, 0.1 )
+
+[sub_resource type="CubeMesh" id=3]
+size = Vector3( 10, 0.5, 1 )
 
 [sub_resource type="BoxShape" id=4]
-extents = Vector3( 2.5, 0.25, 1 )
+extents = Vector3( 5, 0.25, 0.5 )
+
+[sub_resource type="CubeMesh" id=5]
+size = Vector3( 5, 1, 1 )
+
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 2.5, 0.5, 0.5 )
 
 [node name="Spatial" type="Spatial"]
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3 )
+fov = 50.0
 
 [node name="Sun" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5, 10 )
 light_color = Color( 0.615686, 0.466667, 0.337255, 1 )
 
-[node name="Player" type="KinematicBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.644345, 0 )
+[node name="Player1" type="KinematicBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.942341, 0 )
 script = ExtResource( 1 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Player"]
-mesh = SubResource( 2 )
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="Player"]
-shape = SubResource( 3 )
-
-[node name="World" type="StaticBody" parent="."]
-
-[node name="MeshInstance" type="MeshInstance" parent="World"]
+[node name="MeshInstance" type="MeshInstance" parent="Player1"]
 mesh = SubResource( 1 )
 material/0 = null
 
-[node name="CollisionShape" type="CollisionShape" parent="World"]
+[node name="CollisionShape" type="CollisionShape" parent="Player1"]
+shape = SubResource( 2 )
+
+[node name="States" type="Node" parent="Player1"]
+
+[node name="Idle" type="Node" parent="Player1/States"]
+script = ExtResource( 2 )
+
+[node name="Jump" type="Node" parent="Player1/States"]
+script = ExtResource( 3 )
+
+[node name="Move" type="Node" parent="Player1/States"]
+script = ExtResource( 4 )
+
+[node name="Fall" type="Node" parent="Player1/States"]
+script = ExtResource( 5 )
+
+[node name="World" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0 )
+
+[node name="HighGround" type="StaticBody" parent="World"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.2, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="World/HighGround"]
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="World/HighGround"]
 shape = SubResource( 4 )
+
+[node name="LowGround" type="StaticBody" parent="World"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.89301, -0.41653, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="World/LowGround"]
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="World/LowGround"]
+shape = SubResource( 6 )

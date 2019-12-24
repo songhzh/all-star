@@ -1,4 +1,4 @@
-extends "res://Character.gd"
+extends "res://BaseCharacter/base_character.gd"
 
 # Declare member variables here.
 
@@ -14,4 +14,4 @@ func _ready():
 #	pass
 
 func physics_process(delta):
-	.physics_process(delta)
+	.physics_process(delta) # Call parent's function
