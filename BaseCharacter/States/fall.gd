@@ -1,7 +1,7 @@
 extends "res://BaseCharacter/States/state.gd"
 	
 func update(delta):
-	if c.is_on_floor() and c.velocity.y <= 0:
+	if is_landing():
 		emit_signal("finish", get_next_state())
 		return
 

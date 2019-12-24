@@ -33,20 +33,19 @@ func ready():
 	change_state("idle")
 
 func input(event):
-	current_state.handle_input(event)
+	current_state.state_input(event)
 	
 func physics_process(delta):
 	velocity.y -= GRAVITY
-	current_state.update(delta)
+	current_state.state_update(delta)
 	velocity = move_and_slide(velocity, Vector3(0, 1, 0))
-	
 	
 func change_state(state_name):
 	print(state_name)
 	var state = STR_TO_STATE[state_name]
 	
 	if (current_state != null):
-		current_state.exit()
+		current_state.state_exit()
 		
 	current_state = state
-	current_state.init(self)
+	current_state.state_init(self)

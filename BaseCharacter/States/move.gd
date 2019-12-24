@@ -2,7 +2,7 @@ extends "res://BaseCharacter/States/state.gd"
 
 var direction = 0
 
-func handle_input(event):
+func input(event):
 	if c.is_on_floor() and event.is_action_pressed("w"):
 		emit_signal("finish", "jump")
 		return
